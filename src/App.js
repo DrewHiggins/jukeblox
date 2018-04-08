@@ -12,6 +12,7 @@ class App extends Component {
     let scopes = ['user-modify-playback-state', 'user-read-playback-state'];
     return (
       <Container>
+        <img src={require('./logo.png')} width="60%" style={{ display: 'block', margin: 'auto' }} alt="logo" />
         <Route exact path="/" component={HomePage} />
         <Route exact path="/player" component={Player} />
         <Route exact path="/request" component={RequestView} />

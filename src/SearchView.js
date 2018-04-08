@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { 
   Button,
+  Col,
+  FormGroup,
+  Input,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
@@ -29,7 +32,6 @@ export class SearchView extends Component {
       }
     }).then(res => res.json())
       .then(res => {
-        console.log(res);
         let results = res.tracks.items;
         let resultsList = results.map((result, index) => {
           return (
@@ -42,26 +44,33 @@ export class SearchView extends Component {
             </ListGroupItem>
           );
         });
-        this.setState({ ...this.state, searchResults: resultsList });
+        this.setState({ ...this.state, searchResults: resultsList }, () => console.log(this.state));
       });
   }
 
   render() {
     return (
       <div>
-        <input 
-          type="text" 
-          value={this.state.query} 
-          placeholder="Search on Spotify..."
-          onChange={this.handleQueryChange}
-        />
+        <FormGroup row style={{ marginTop: 20 }}>
+          <Col sm={10}>
+            <Input 
+              type="text" 
+              value={this.state.query} 
+              placeholder="Search on Spotify..."
+              onChange={this.handleQueryChange}
+            />
+          </Col>
+          <Col sm={2}>
+            <Button 
+              onClick={() => this.searchOnSpotify(this.state.query)}
+              color="success"
+              className="btn btn-block"
+            >
+              Search
+            </Button>
+          </Col>
+        </FormGroup>
         {' '}
-        <Button 
-          onClick={() => this.searchOnSpotify(this.state.query)}
-          color="success"
-        >
-          Search
-        </Button>
         <ListGroup>
           {this.state.searchResults}
         </ListGroup>

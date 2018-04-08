@@ -39,7 +39,7 @@ export class Player extends Component {
   }
 
   tokenExpired = () => {
-    let expireTime = parseInt(localStorage.getItem("tokenExpires"));
+    let expireTime = parseInt(localStorage.getItem("tokenExpires"), 10);
     return expireTime < (new Date()).getTime();
   }
 
