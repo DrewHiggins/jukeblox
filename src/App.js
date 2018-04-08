@@ -9,7 +9,7 @@ import { RequestView } from './RequestView';
 
 class App extends Component {
   render() {
-    let scopes = ['user-modify-playback-state', 'user-read-playback-state'];
+    let scopes = ['user-modify-playback-state', 'user-read-playback-state', 'playlist-modify-public', 'playlist-modify-private'];
     return (
       <Container>
         <img src={require('./logo.png')} width="60%" style={{ display: 'block', margin: 'auto' }} alt="logo" />

@@ -10,7 +10,7 @@ import {
   Row
 } from 'reactstrap';
 import Web3 from 'web3';
-import { GreeterAbi } from './contract_abis/Greeter';
+import { SongQueueAbi } from './contract_abis/SongQueue';
 
 export class RequestView extends Component {
   constructor() {
@@ -22,7 +22,7 @@ export class RequestView extends Component {
     };
     this.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
     this.web3 = new Web3(this.web3Provider);
-    this.contract = new this.web3.eth.Contract(GreeterAbi, "0xce1b04918339b5F80F695bA987EE0fa1E4Be4093");
+    this.contract = new this.web3.eth.Contract(SongQueueAbi, "0x59ed41324E5d3820119571a21e8306CbD67AF528");
   }
 
   componentDidMount() {
@@ -39,7 +39,7 @@ export class RequestView extends Component {
   /**
    * Converts a hexadecimal string to an ASCII string
    * @param str {string} Hex byte string (exclude '0x')
-   * @returns {string} ASCII string
+   * @returns {string}
    */
   a2hex = (str) => {
     var arr = [];
@@ -51,7 +51,7 @@ export class RequestView extends Component {
   }
 
   selectSong = (song) => {
-    this.setState({ selectedSong: song });
+    this.setState({ ...this.state, selectedSong: song });
   }
 
   /**
@@ -61,7 +61,7 @@ export class RequestView extends Component {
    */
   estimateRequestCost = (method) => {
     let gas, gasPrice;
-    return this.contract.methods.greet().estimateGas({ from: this.wallet })
+    return this.contract.methods.addSong(this.state.wallet, '0x123456').estimateGas({ from: this.wallet })
       .then(amt => {
         gas = amt;
         return this.web3.eth.getGasPrice()
@@ -73,7 +73,10 @@ export class RequestView extends Component {
   }
 
   submitRequest = () => {
-
+    let song = this.web3.utils.fromAscii(this.state.selectedSong.id);
+    console.log(song);
+    this.contract.methods.addSong(this.wallet, song).call()
+      .then(console.log);
   }
 
   render() {
@@ -113,7 +116,7 @@ export class RequestView extends Component {
           </ModalBody>
           <ModalFooter>
             <Button color="danger">Cancel</Button>
-            <Button color="success">Submit Request</Button>
+            <Button color="success" onClick={this.submitRequest}>Submit Request</Button>
           </ModalFooter>
         </Modal>
       </div>

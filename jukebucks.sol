@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.4.18;
 
 // ----------------------------------------------------------------------------
 // 'Jukebucks' token contract
@@ -117,8 +117,8 @@ contract JukebucksToken is ERC20Interface, Owned, SafeMath {
         name = "Jukebucks";
         decimals = 18;
         _totalSupply = 100000000000000000000000000;
-        balances[0xf68AB41EfA8D433700bb7CCa63F34c27ef14C3a8] = _totalSupply;
-        Transfer(address(0), 0xf68AB41EfA8D433700bb7CCa63F34c27ef14C3a8, _totalSupply);
+        balances[msg.sender] = _totalSupply;
+        Transfer(address(0), msg.sender, _totalSupply);
     }
 
 
