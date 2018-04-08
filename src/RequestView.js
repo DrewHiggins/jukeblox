@@ -36,6 +36,20 @@ export class RequestView extends Component {
       });
   }
 
+  /**
+   * Converts a hexadecimal string to an ASCII string
+   * @param str {string} Hex byte string (exclude '0x')
+   * @returns {string} ASCII string
+   */
+  a2hex = (str) => {
+    var arr = [];
+    for (var i = 0, l = str.length; i < l; i ++) {
+      var hex = Number(str.charCodeAt(i)).toString(16);
+      arr.push(hex);
+    }
+    return arr.join('');
+  }
+
   selectSong = (song) => {
     this.setState({ selectedSong: song });
   }
@@ -56,6 +70,10 @@ export class RequestView extends Component {
         gasPrice = price;
         return this.web3.utils.fromWei(gasPrice, 'ether') * gas;
       });
+  }
+
+  submitRequest = () => {
+
   }
 
   render() {
