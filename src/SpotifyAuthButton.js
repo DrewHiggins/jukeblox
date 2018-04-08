@@ -25,6 +25,7 @@ export class SpotifyAuthButton extends Component {
     else if (window.location.hash.indexOf("#access_token=") > -1) {
       let token = window.location.hash.substring(14, window.location.hash.indexOf('&token_type=Bearer'));
       localStorage.setItem("accessToken", token);
+      localStorage.setItem("tokenExpires", ((new Date()).getTime() + 3600 * 1000).toString());
       this.setState({ shouldRedirect: true });
     }
   }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { 
   Modal,
   ModalBody,
@@ -16,7 +17,7 @@ export class Player extends Component {
   };
 
   componentDidMount() {
-    this.setState({ accessToken: localStorage.getItem("accessToken") }, () => {
+    this.setState({ ...this.state, accessToken: localStorage.getItem("accessToken") }, () => {
       fetch('https://api.spotify.com/v1/me/player/devices', {
         headers: { 
           'Authorization': 'Bearer ' + this.state.accessToken,
@@ -35,6 +36,16 @@ export class Player extends Component {
       }),
       method: 'PUT'
     });
+  }
+
+  tokenExpired = () => {
+    let expireTime = parseInt(localStorage.getItem("tokenExpires"));
+    return expireTime < (new Date()).getTime();
+  }
+
+  reauth = () => {
+    localStorage.clear();
+    return <Redirect to="/auth" />;
   }
 
   render() {
@@ -63,6 +74,7 @@ export class Player extends Component {
             </ListGroup>
           </ModalBody>
         </Modal>
+        {this.tokenExpired() ? this.reauth() : ""}
       </div>
     );
   }
