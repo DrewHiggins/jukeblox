@@ -33,7 +33,7 @@ export class SearchView extends Component {
         let results = res.tracks.items;
         let resultsList = results.map((result, index) => {
           return (
-            <ListGroupItem key={result.id}>
+            <ListGroupItem key={result.id} onClick={() => this.props.selectSong(result)}>
               <ListGroupItemHeading>{result.name}</ListGroupItemHeading>
               <ListGroupItemText>
                 {result.artists.map(artist => artist.name).join(', ')} &mdash;
